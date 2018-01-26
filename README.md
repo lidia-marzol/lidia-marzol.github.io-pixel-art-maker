@@ -8,7 +8,7 @@ This App was built for the Udacity Front End Nanodegree Program. The aim is to i
 ![screenshot](screenshot.png)
 
 ## How to Load the App
-You can run a hosted version of the app at [https://lidia-marzol.github.io/udacity-pixel-art/](https://lidia-marzol.github.io/udacity-pixel-art/)
+You can run a hosted version of the app at [https://lidia-marzol.github.io/udacity-pixel-art-maker/](https://lidia-marzol.github.io/udacity-pixel-art-maker/)
 
 To run a local copy, clone or download the code repository at [https://github.com/lidia-marzol/udacity-pixel-art.githttps://github.com/lidia-marzol/udacity-pixel-art.git](https://github.com/lidia-marzol/lidia-marzol.github.io-pixel-art-maker.git). If downloaded, unzip the folder and run `index.html` in your favorite browser.
 
