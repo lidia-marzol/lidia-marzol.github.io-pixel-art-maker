@@ -1,6 +1,7 @@
+var drawing = false;
+
 (function() {
   'use strict';
-
   // set global variables
   const $colorPicker = document.getElementById("colorPicker");
   const $sizePicker = document.getElementById("sizePicker");
@@ -16,6 +17,8 @@
     let height = document.getElementById("input_height").value;
     makeGrid(width, height);
   })
+  
+  
 
   // Draw grid
   function makeGrid(width, height) {
@@ -25,14 +28,23 @@
         for (let cell= 0; cell < height; cell++ ) {
           // add new cell with listener to change color
           let newCell = newRow.insertCell();
-          newCell.onclick = changeColor;
+          // newCell.onclick = changeColor;
+          
+          
+          // tutaj przypisujemy do zdarzen nowe funkcje
+          newCell.onmousedown = function() { drawing = true; this.style.background = $colorPicker.value; };
+          newCell.onmouseup = function() { drawing = false; };
+          newCell.onmouseover = changeColor;
         }
     }
   }
 
   // change the color of the clicked cell to current color
+  // rysuj tylko wtedy kiedy trzymamy myszke
   function changeColor() {
-    this.style.background = $colorPicker.value;
+    if (drawing) { 
+      this.style.background = $colorPicker.value;
+    }
   }
 
 })();
