@@ -1,35 +1,32 @@
 (function(document){
     'use strict';
 
-    const elements = {
-        colorPicker: document.getElementById('colorPicker'),
-        gridCanvas: document.getElementById('pixel_canvas'),
-        widthInput: document.getElementById('input_width'),
-        heightInput: document.getElementById('input_height')
-    };
-    const init = function() {
+    const $colorPicker = document.getElementById("colorPicker");
+    const $sizePicker = document.getElementById("sizePicker");
+    const $table = document.getElementById("pixel_canvas");
 
-        document.getElementById('sizePicker').addEventListener('submit', makeGrid, false);
-
-        elements.gridCanvas.addEventListener('click', setGridColor);
-    };
-
-    function makeGrid(event) {
+    $sizePicker.addEventListener('submit', function() {
       
-        event.preventDefault();
+      event.preventDefault();
 
-        const gridSize = getGridSize();
+      let width = document.getElementById("input_width").value;
+      let height = document.getElementById("input_height").value;
+      makeGrid(width, height);
+    })
 
-        clearCanvas();
+    function makeGrid(width, height) {
+      $table.innerHTML = '';
+      for (let row = 0; row < width; row++) {
+        let newRow = $table.insertRow();
+          for (let cell= 0; cell < height; cell++ ) {
 
-        for (let row = 0; row < gridSize.numberOfRows; row++) {
-            let tr = elements.gridCanvas.insertRow(row);
-
-            for (let col = 0; col < gridSize.numberOfColumns; col++) {
-        
-                tr.insertCell(col);
-            }
-        }
+            let newCell = newRow.insertCell();
+          
+            newCell.onmousedown = function() { drawing = true; this.style.background = $colorPicker.value; };
+            newCell.onmouseup = function() { drawing = false; };
+            newCell.onmouseover = changeColor;
+          }
+      }
     }
     function setGridColor(event) {
         let color = elements.colorPicker.value;
@@ -47,8 +44,17 @@
             numberOfColumns: parseInt(numberOfColumns),
             numberOfRows: parseInt(numberOfRows)
         }
-    }
-
+      }
+    function changeColor() {
+        if (drawing) { 
+          this.style.background = $colorPicker.value;
+        }
+      }
+    
     init();
 
 }(document));
+
+
+
+
