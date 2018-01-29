@@ -1,50 +1,54 @@
-var drawing = false;
+(function(document){
+    'use strict';
 
-(function() {
-  'use strict';
-  // set global variables
-  const $colorPicker = document.getElementById("colorPicker");
-  const $sizePicker = document.getElementById("sizePicker");
-  const $table = document.getElementById("pixel_canvas");
+    const elements = {
+        colorPicker: document.getElementById('colorPicker'),
+        gridCanvas: document.getElementById('pixel_canvas'),
+        widthInput: document.getElementById('input_width'),
+        heightInput: document.getElementById('input_height')
+    };
+    const init = function() {
 
-  // add listener to select grid size
-  $sizePicker.addEventListener('submit', function() {
-    // prevent page refresh on submit
-    event.preventDefault();
+        document.getElementById('sizePicker').addEventListener('submit', makeGrid, false);
 
-    // get input data and draw grid
-    let width = document.getElementById("input_width").value;
-    let height = document.getElementById("input_height").value;
-    makeGrid(width, height);
-  })
-  
-  
+        elements.gridCanvas.addEventListener('click', setGridColor);
+    };
 
-  // Draw grid
-  function makeGrid(width, height) {
-    $table.innerHTML = '';
-    for (let row = 0; row < width; row++) {
-      let newRow = $table.insertRow();
-        for (let cell= 0; cell < height; cell++ ) {
-          // add new cell with listener to change color
-          let newCell = newRow.insertCell();
-          // newCell.onclick = changeColor;
-          
-          
-          // tutaj przypisujemy do zdarzen nowe funkcje
-          newCell.onmousedown = function() { drawing = true; this.style.background = $colorPicker.value; };
-          newCell.onmouseup = function() { drawing = false; };
-          newCell.onmouseover = changeColor;
+    function makeGrid(event) {
+      
+        event.preventDefault();
+
+        const gridSize = getGridSize();
+
+        clearCanvas();
+
+        for (let row = 0; row < gridSize.numberOfRows; row++) {
+            let tr = elements.gridCanvas.insertRow(row);
+
+            for (let col = 0; col < gridSize.numberOfColumns; col++) {
+        
+                tr.insertCell(col);
+            }
         }
     }
-  }
+    function setGridColor(event) {
+        let color = elements.colorPicker.value;
 
-  // change the color of the clicked cell to current color
-  // rysuj tylko wtedy kiedy trzymamy myszke
-  function changeColor() {
-    if (drawing) { 
-      this.style.background = $colorPicker.value;
+        event.target.setAttribute('style', 'background-color: ' + color);
     }
-  }
+    function clearCanvas() {
+        elements.gridCanvas.innerHTML = '';
+    }
+    function getGridSize() {
+        let numberOfRows = elements.heightInput.value;
+        let numberOfColumns = elements.widthInput.value;
 
-})();
+        return {
+            numberOfColumns: parseInt(numberOfColumns),
+            numberOfRows: parseInt(numberOfRows)
+        }
+    }
+
+    init();
+
+}(document));
